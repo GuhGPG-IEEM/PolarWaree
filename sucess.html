@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Realizado com Sucesso - Tech Store</title>
+    <meta name="description" content="Seu pedido foi realizado com sucesso na Tech Store.">
+    <meta name="keywords" content="sucesso, pedido realizado, confirmação, tech store">
+    <meta name="author" content="Tech Store">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Pedido Realizado com Sucesso - Tech Store">
+    <meta property="og:description" content="Seu pedido foi realizado com sucesso na Tech Store.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://techstore.com/sucess">
+    <meta property="og:image" content="https://techstore.com/assets/images/og-sucess.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pedido Realizado com Sucesso - Tech Store">
+    <meta name="twitter:description" content="Seu pedido foi realizado com sucesso na Tech Store.">
+    <meta name="twitter:image" content="https://techstore.com/assets/images/twitter-sucess.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="js/components.js" as="script">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Core Scripts -->
+    <script src="js/components.js" defer></script>
+    <script src="js/auth.js" defer></script>
+    
+</head>
+<body class="theme-light">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Carregando...</p>
+    </div>
+
+    <!-- Header -->
+    <div id="header-container"></div>
+
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Success Content -->
+            <div class="success-container">
+                <div class="success-icon">
+                    <i class="icon-check-circle"></i>
+                </div>
+                
+                <h1 class="success-title">Pedido Realizado com Sucesso!</h1>
+                <p class="success-subtitle">Obrigado por comprar na Tech Store</p>
+                
+                <div class="order-info">
+                    <h3>Número do Pedido</h3>
+                    <span id="order-number" class="order-number">#TS000001</span>
+                </div>
+                
+                <div class="success-details">
+                    <div class="detail-item">
+                        <i class="icon-mail"></i>
+                        <div>
+                            <h4>Confirmação por E-mail</h4>
+                            <p>Enviamos os detalhes do seu pedido para seu e-mail</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <i class="icon-truck"></i>
+                        <div>
+                            <h4>Acompanhe sua Entrega</h4>
+                            <p>Você receberá o código de rastreamento em breve</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <i class="icon-headphones"></i>
+                        <div>
+                            <h4>Suporte 24/7</h4>
+                            <p>Estamos aqui para ajudar com qualquer dúvida</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="success-actions">
+                    <a href="perfil.html" class="btn btn-primary">
+                        <i class="icon-user"></i>
+                        Acompanhar Pedido
+                    </a>
+                    <a href="index.html" class="btn btn-outline">
+                        <i class="icon-home"></i>
+                        Continuar Comprando
+                    </a>
+                </div>
+            </div>
+        
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Inicialização da página
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Carregar componentes
+            await Promise.all([
+                loadComponent('header-container', 'components/header.html'),
+                loadComponent('sidebar-container', 'components/sidebar.html'),
+                loadComponent('footer-container', 'components/footer.html')
+            ]);
+
+            
+            // Inicializar página de sucesso
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('order');
+            if (orderId) {
+                document.getElementById('order-number').textContent = orderId;
+            }
+        
+
+            // Remover loading screen
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 300);
+                }, 500);
+            }
+        });
+
+        
+    </script>
+</body>
+</html>

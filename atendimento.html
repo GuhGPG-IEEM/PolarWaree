@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atendimento ao Cliente - Tech Store</title>
+    <meta name="description" content="Central de atendimento da Tech Store. Tire suas dúvidas, consulte nosso FAQ e entre em contato conosco.">
+    <meta name="keywords" content="atendimento, suporte, FAQ, contato, tech store, ajuda">
+    <meta name="author" content="Tech Store">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Atendimento ao Cliente - Tech Store">
+    <meta property="og:description" content="Central de atendimento e suporte da Tech Store">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://techstore.com/atendimento">
+    <meta property="og:image" content="https://techstore.com/assets/images/og-support.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Atendimento ao Cliente - Tech Store">
+    <meta name="twitter:description" content="Central de atendimento e suporte da Tech Store">
+    <meta name="twitter:image" content="https://techstore.com/assets/images/twitter-support.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="js/components.js" as="script">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Core Scripts -->
+    <script src="js/components.js" defer></script>
+    <script src="js/auth.js" defer></script>
+</head>
+<body class="theme-light">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Carregando...</p>
+    </div>
+
+    <!-- Header -->
+    <div id="header-container"></div>
+
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" aria-label="Navegação">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">
+                            <i class="icon-home"></i>
+                            Início
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <i class="icon-headphones"></i>
+                        Atendimento
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="icon-headphones"></i>
+                    Atendimento ao Cliente
+                </h1>
+                <p class="page-subtitle">Estamos aqui para ajudar você com qualquer dúvida ou problema</p>
+            </div>
+
+            <!-- Support Options -->
+            <section class="support-options">
+                <div class="support-grid">
+                    <div class="support-card">
+                        <div class="support-icon">
+                            <i class="icon-message-circle"></i>
+                        </div>
+                        <h3>Chat Online</h3>
+                        <p>Atendimento em tempo real</p>
+                        <span class="support-status online">Online</span>
+                        <button class="btn btn-primary" onclick="openChat()">
+                            Iniciar Chat
+                        </button>
+                    </div>
+
+                    <div class="support-card">
+                        <div class="support-icon">
+                            <i class="icon-phone"></i>
+                        </div>
+                        <h3>Telefone</h3>
+                        <p>Ligue para nosso suporte</p>
+                        <span class="support-phone">(11) 4000-1234</span>
+                        <small>Seg-Sex: 8h às 18h</small>
+                    </div>
+
+                    <div class="support-card">
+                        <div class="support-icon">
+                            <i class="icon-mail"></i>
+                        </div>
+                        <h3>E-mail</h3>
+                        <p>Envie sua dúvida por e-mail</p>
+                        <span class="support-email">suporte@techstore.com</span>
+                        <small>Resposta em até 24h</small>
+                    </div>
+
+                    <div class="support-card">
+                        <div class="support-icon">
+                            <i class="icon-map-pin"></i>
+                        </div>
+                        <h3>Loja Física</h3>
+                        <p>Visite nossa loja</p>
+                        <span class="support-address">Av. Paulista, 1000</span>
+                        <small>Seg-Sáb: 10h às 20h</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section class="faq-section">
+                <h2 class="section-title">Perguntas Frequentes</h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Quais são as formas de pagamento aceitas?</span>
+                            <i class="icon-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Aceitamos as principais bandeiras de cartão de crédito (Visa, MasterCard, Amex, Elo), cartão de débito, boleto bancário e PIX. O pagamento via PIX oferece 5% de desconto à vista.</p>
+                            <ul>
+                                <li>Cartão de crédito: até 12x sem juros</li>
+                                <li>Cartão de débito: à vista</li>
+                                <li>PIX: 5% de desconto</li>
+                                <li>Boleto: à vista</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Como posso rastrear meu pedido?</span>
+                            <i class="icon-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Assim que seu pedido for despachado, você receberá um e-mail com o código de rastreamento e o link da transportadora. Você também pode:</p>
+                            <ul>
+                                <li>Acessar "Meus Pedidos" em seu perfil</li>
+                                <li>Usar nosso sistema de rastreamento</li>
+                                <li>Entrar em contato pelo WhatsApp</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Qual é a política de devolução?</span>
+                            <i class="icon-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Você pode solicitar a devolução de um produto em até 7 dias corridos após o recebimento, conforme o Código de Defesa do Consumidor.</p>
+                            <h4>Condições para devolução:</h4>
+                            <ul>
+                                <li>Produto em embalagem original</li>
+                                <li>Sem sinais de uso</li>
+                                <li>Acessórios e manuais inclusos</li>
+                                <li>Nota fiscal</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Qual o prazo de entrega?</span>
+                            <i class="icon-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Os prazos de entrega variam conforme sua localização e o tipo de frete escolhido:</p>
+                            <ul>
+                                <li><strong>Região Metropolitana de SP:</strong> 1-2 dias úteis</li>
+                                <li><strong>Capitais:</strong> 2-5 dias úteis</li>
+                                <li><strong>Interior:</strong> 3-7 dias úteis</li>
+                                <li><strong>Entrega expressa:</strong> +R$ 15,00</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Como funciona a garantia dos produtos?</span>
+                            <i class="icon-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Todos os nossos produtos possuem garantia do fabricante. Além disso, oferecemos garantia estendida opcional:</p>
+                            <ul>
+                                <li><strong>Garantia legal:</strong> 90 dias</li>
+                                <li><strong>Garantia do fabricante:</strong> 12 meses</li>
+                                <li><strong>Garantia estendida:</strong> até 36 meses (opcional)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span>Posso alterar ou cancelar meu pedido?</span>
+                            <i class="icon-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Sim, você pode alterar ou cancelar seu pedido antes do faturamento:</p>
+                            <ul>
+                                <li>Entre em contato imediatamente após o pedido</li>
+                                <li>Use o chat online ou telefone</li>
+                                <li>Após o faturamento, apenas cancelamento com devolução</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Form -->
+            <section class="contact-section">
+                <div class="contact-layout">
+                    <div class="contact-info">
+                        <h2>Entre em Contato</h2>
+                        <p>Não encontrou a resposta que procurava? Envie sua dúvida que responderemos o mais rápido possível.</p>
+                        
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <i class="icon-clock"></i>
+                                <div>
+                                    <h4>Horário de Atendimento</h4>
+                                    <p>Segunda a Sexta: 8h às 18h<br>Sábado: 9h às 15h</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <i class="icon-phone"></i>
+                                <div>
+                                    <h4>Telefone</h4>
+                                    <p>(11) 4000-1234<br>WhatsApp: (11) 99999-9999</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <i class="icon-mail"></i>
+                                <div>
+                                    <h4>E-mail</h4>
+                                    <p>suporte@techstore.com<br>vendas@techstore.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-container">
+                        <form id="contact-form" class="contact-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contact-name" class="form-label">
+                                        <i class="icon-user"></i>
+                                        Nome completo
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="contact-name" 
+                                        name="name" 
+                                        class="form-input" 
+                                        placeholder="Seu nome completo"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="contact-email" class="form-label">
+                                        <i class="icon-mail"></i>
+                                        E-mail
+                                    </label>
+                                    <input 
+                                        type="email" 
+                                        id="contact-email" 
+                                        name="email" 
+                                        class="form-input" 
+                                        placeholder="seu@email.com"
+                                        required
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contact-phone" class="form-label">
+                                        <i class="icon-phone"></i>
+                                        Telefone
+                                    </label>
+                                    <input 
+                                        type="tel" 
+                                        id="contact-phone" 
+                                        name="phone" 
+                                        class="form-input" 
+                                        placeholder="(11) 99999-9999"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="contact-subject" class="form-label">
+                                        <i class="icon-tag"></i>
+                                        Assunto
+                                    </label>
+                                    <select id="contact-subject" name="subject" class="form-select" required>
+                                        <option value="">Selecione um assunto</option>
+                                        <option value="duvida-produto">Dúvida sobre produto</option>
+                                        <option value="pedido">Acompanhar pedido</option>
+                                        <option value="devolucao">Devolução/Troca</option>
+                                        <option value="garantia">Garantia</option>
+                                        <option value="pagamento">Pagamento</option>
+                                        <option value="sugestao">Sugestão</option>
+                                        <option value="reclamacao">Reclamação</option>
+                                        <option value="outro">Outro</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact-message" class="form-label">
+                                    <i class="icon-message-square"></i>
+                                    Mensagem
+                                </label>
+                                <textarea 
+                                    id="contact-message" 
+                                    name="message" 
+                                    class="form-textarea" 
+                                    rows="6" 
+                                    placeholder="Descreva sua dúvida ou problema..."
+                                    required
+                                ></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-full" id="contact-submit">
+                                <span class="btn-text">
+                                    <i class="icon-send"></i>
+                                    Enviar Mensagem
+                                </span>
+                                <div class="btn-loading" style="display: none;">
+                                    <div class="spinner"></div>
+                                    Enviando...
+                                </div>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Inicialização da página de atendimento
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Carregar componentes
+            await Promise.all([
+                loadComponent('header-container', 'components/header.html'),
+                loadComponent('sidebar-container', 'components/sidebar.html'),
+                loadComponent('footer-container', 'components/footer.html')
+            ]);
+
+            // Remover loading screen
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 300);
+                }, 500);
+            }
+        });
+
+        // FAQ Accordion
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.faq-question')) {
+                const question = e.target.closest('.faq-question');
+                const faqItem = question.parentElement;
+                const answer = faqItem.querySelector('.faq-answer');
+                const icon = question.querySelector('i');
+                const isExpanded = question.getAttribute('aria-expanded') === 'true';
+
+                // Fechar outros FAQs
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    if (item !== faqItem) {
+                        const otherQuestion = item.querySelector('.faq-question');
+                        const otherAnswer = item.querySelector('.faq-answer');
+                        const otherIcon = otherQuestion.querySelector('i');
+                        
+                        otherQuestion.setAttribute('aria-expanded', 'false');
+                        otherAnswer.style.maxHeight = '0';
+                        otherIcon.style.transform = 'rotate(0deg)';
+                        item.classList.remove('active');
+                    }
+                });
+
+                // Toggle FAQ atual
+                if (isExpanded) {
+                    question.setAttribute('aria-expanded', 'false');
+                    answer.style.maxHeight = '0';
+                    icon.style.transform = 'rotate(0deg)';
+                    faqItem.classList.remove('active');
+                } else {
+                    question.setAttribute('aria-expanded', 'true');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    icon.style.transform = 'rotate(180deg)';
+                    faqItem.classList.add('active');
+                }
+            }
+        });
+
+        // Contact Form
+        document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('contact-submit');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+            
+            // Mostrar loading
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'flex';
+            submitBtn.disabled = true;
+
+            // Simular envio
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // Mostrar sucesso
+            showToast('Mensagem enviada com sucesso! Responderemos em breve.', 'success');
+            
+            // Reset form
+            e.target.reset();
+            
+            // Restaurar botão
+            btnText.style.display = 'flex';
+            btnLoading.style.display = 'none';
+            submitBtn.disabled = false;
+        });
+
+        // Chat function
+        function openChat() {
+            showToast('Chat online será aberto em breve!', 'info');
+            // Aqui você integraria com um sistema de chat real
+        }
+
+        // Phone formatting
+        document.getElementById('contact-phone')?.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 10) {
+                value = value.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            } else if (value.length > 6) {
+                value = value.replace(/^(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+            } else if (value.length > 2) {
+                value = value.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+            }
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>

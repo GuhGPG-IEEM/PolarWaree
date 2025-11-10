@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Tech Store</title>
+    <meta name="description" content="Faça login ou cadastre-se na Tech Store para acessar sua conta e aproveitar as melhores ofertas em tecnologia.">
+    <meta name="keywords" content="login, cadastro, tech store, tecnologia, conta">
+    <meta name="author" content="Tech Store">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Login - Tech Store">
+    <meta property="og:description" content="Acesse sua conta na Tech Store">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://techstore.com/login">
+    <meta property="og:image" content="https://techstore.com/assets/images/og-login.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Login - Tech Store">
+    <meta name="twitter:description" content="Acesse sua conta na Tech Store">
+    <meta name="twitter:image" content="https://techstore.com/assets/images/twitter-login.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="js/components.js" as="script">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Core Scripts -->
+    <script src="js/components.js" defer></script>
+    <script src="js/auth.js" defer></script>
+</head>
+<body class="theme-light">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Carregando...</p>
+    </div>
+
+    <!-- Header Simples -->
+    <div id="header-simple-container"></div>
+
+    <!-- Main Content -->
+    <main class="auth-main">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h1>Bem-vindo de volta!</h1>
+                    <p>Entre na sua conta para continuar suas compras</p>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="login-email" class="form-label">
+                            <i class="icon-mail"></i>
+                            E-mail
+                        </label>
+                        <input 
+                            type="email" 
+                            id="login-email" 
+                            name="email" 
+                            class="form-input" 
+                            placeholder="seu@email.com"
+                            required
+                            autocomplete="email"
+                        >
+                        <span class="form-error" id="login-email-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password" class="form-label">
+                            <i class="icon-lock"></i>
+                            Senha
+                        </label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="login-password" 
+                                name="password" 
+                                class="form-input" 
+                                placeholder="••••••••"
+                                required
+                                autocomplete="current-password"
+                            >
+                            <button type="button" class="password-toggle" aria-label="Mostrar/ocultar senha">
+                                <i class="icon-eye"></i>
+                            </button>
+                        </div>
+                        <span class="form-error" id="login-password-error"></span>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-wrapper">
+                            <input type="checkbox" id="remember-me" name="remember">
+                            <span class="checkbox-custom"></span>
+                            Lembrar de mim
+                        </label>
+                        <a href="#" class="forgot-password-link">Esqueci minha senha</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full" id="login-btn">
+                        <span class="btn-text">Entrar</span>
+                        <div class="btn-loading" style="display: none;">
+                            <div class="spinner"></div>
+                            Entrando...
+                        </div>
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="auth-divider">
+                    <span>ou</span>
+                </div>
+
+                <!-- Social Login -->
+                <div class="social-login">
+                    <button type="button" class="btn btn-outline social-btn" id="google-login">
+                        <i class="icon-google"></i>
+                        Continuar com Google
+                    </button>
+                    <button type="button" class="btn btn-outline social-btn" id="facebook-login">
+                        <i class="icon-facebook"></i>
+                        Continuar com Facebook
+                    </button>
+                </div>
+
+                <!-- Register Link -->
+                <div class="auth-footer">
+                    <p>Não tem uma conta? <a href="#" id="show-register" class="auth-link">Cadastre-se</a></p>
+                </div>
+            </div>
+
+            <!-- Register Form (Hidden by default) -->
+            <div class="auth-card" id="register-card" style="display: none;">
+                <div class="auth-header">
+                    <h1>Criar conta</h1>
+                    <p>Cadastre-se para aproveitar as melhores ofertas</p>
+                </div>
+
+                <form id="register-form" class="auth-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="register-name" class="form-label">
+                                <i class="icon-user"></i>
+                                Nome completo
+                            </label>
+                            <input 
+                                type="text" 
+                                id="register-name" 
+                                name="name" 
+                                class="form-input" 
+                                placeholder="Seu nome completo"
+                                required
+                                autocomplete="name"
+                            >
+                            <span class="form-error" id="register-name-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-email" class="form-label">
+                            <i class="icon-mail"></i>
+                            E-mail
+                        </label>
+                        <input 
+                            type="email" 
+                            id="register-email" 
+                            name="email" 
+                            class="form-input" 
+                            placeholder="seu@email.com"
+                            required
+                            autocomplete="email"
+                        >
+                        <span class="form-error" id="register-email-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-phone" class="form-label">
+                            <i class="icon-phone"></i>
+                            Telefone
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="register-phone" 
+                            name="phone" 
+                            class="form-input" 
+                            placeholder="(11) 99999-9999"
+                            autocomplete="tel"
+                        >
+                        <span class="form-error" id="register-phone-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-password" class="form-label">
+                            <i class="icon-lock"></i>
+                            Senha
+                        </label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="register-password" 
+                                name="password" 
+                                class="form-input" 
+                                placeholder="••••••••"
+                                required
+                                autocomplete="new-password"
+                            >
+                            <button type="button" class="password-toggle" aria-label="Mostrar/ocultar senha">
+                                <i class="icon-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength" id="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-fill"></div>
+                            </div>
+                            <span class="strength-text">Digite uma senha</span>
+                        </div>
+                        <span class="form-error" id="register-password-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-confirm-password" class="form-label">
+                            <i class="icon-lock"></i>
+                            Confirmar senha
+                        </label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="register-confirm-password" 
+                                name="confirmPassword" 
+                                class="form-input" 
+                                placeholder="••••••••"
+                                required
+                                autocomplete="new-password"
+                            >
+                            <button type="button" class="password-toggle" aria-label="Mostrar/ocultar senha">
+                                <i class="icon-eye"></i>
+                            </button>
+                        </div>
+                        <span class="form-error" id="register-confirm-password-error"></span>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-wrapper">
+                            <input type="checkbox" id="accept-terms" name="terms" required>
+                            <span class="checkbox-custom"></span>
+                            Aceito os <a href="#" class="terms-link">Termos de Uso</a> e <a href="#" class="privacy-link">Política de Privacidade</a>
+                        </label>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-wrapper">
+                            <input type="checkbox" id="newsletter" name="newsletter">
+                            <span class="checkbox-custom"></span>
+                            Quero receber ofertas e novidades por e-mail
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full" id="register-btn">
+                        <span class="btn-text">Criar conta</span>
+                        <div class="btn-loading" style="display: none;">
+                            <div class="spinner"></div>
+                            Criando conta...
+                        </div>
+                    </button>
+                </form>
+
+                <!-- Login Link -->
+                <div class="auth-footer">
+                    <p>Já tem uma conta? <a href="#" id="show-login" class="auth-link">Faça login</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auth Background -->
+        <div class="auth-background">
+            <div class="auth-bg-overlay"></div>
+            <div class="auth-bg-content">
+                <h2>Sua loja de tecnologia de confiança</h2>
+                <p>Produtos de qualidade com os melhores preços do mercado. Entrega rápida e suporte 24/7.</p>
+                <div class="auth-features">
+                    <div class="feature-item">
+                        <i class="icon-shield"></i>
+                        <span>Compra 100% Segura</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="icon-truck"></i>
+                        <span>Frete Grátis acima de R$ 199</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="icon-refresh"></i>
+                        <span>7 dias para trocar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Inicialização da página de login
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Carregar componentes
+            await loadComponent('header-simple-container', 'components/header-simple.html');
+            
+            // Inicializar funcionalidades de autenticação
+            if (typeof AuthManager !== 'undefined') {
+                const authManager = new AuthManager();
+                authManager.initLoginPage();
+            }
+
+            // Remover loading screen
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 300);
+                }, 500);
+            }
+        });
+
+        // Toggle entre login e cadastro
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'show-register') {
+                e.preventDefault();
+                document.querySelector('.auth-card:first-of-type').style.display = 'none';
+                document.getElementById('register-card').style.display = 'block';
+            } else if (e.target.id === 'show-login') {
+                e.preventDefault();
+                document.querySelector('.auth-card:first-of-type').style.display = 'block';
+                document.getElementById('register-card').style.display = 'none';
+            }
+        });
+
+        // Toggle de senha
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.password-toggle')) {
+                e.preventDefault();
+                const toggle = e.target.closest('.password-toggle');
+                const input = toggle.previousElementSibling;
+                const icon = toggle.querySelector('i');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.className = 'icon-eye-off';
+                } else {
+                    input.type = 'password';
+                    icon.className = 'icon-eye';
+                }
+            }
+        });
+
+        // Validação de força da senha
+        document.getElementById('register-password')?.addEventListener('input', (e) => {
+            const password = e.target.value;
+            const strengthIndicator = document.getElementById('password-strength');
+            const strengthFill = strengthIndicator.querySelector('.strength-fill');
+            const strengthText = strengthIndicator.querySelector('.strength-text');
+            
+            let strength = 0;
+            let text = 'Muito fraca';
+            let color = '#ef4444';
+            
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            switch (strength) {
+                case 0:
+                case 1:
+                    text = 'Muito fraca';
+                    color = '#ef4444';
+                    break;
+                case 2:
+                    text = 'Fraca';
+                    color = '#f59e0b';
+                    break;
+                case 3:
+                    text = 'Média';
+                    color = '#eab308';
+                    break;
+                case 4:
+                    text = 'Forte';
+                    color = '#22c55e';
+                    break;
+                case 5:
+                    text = 'Muito forte';
+                    color = '#16a34a';
+                    break;
+            }
+            
+            strengthFill.style.width = `${(strength / 5) * 100}%`;
+            strengthFill.style.backgroundColor = color;
+            strengthText.textContent = text;
+            strengthText.style.color = color;
+        });
+    </script>
+</body>
+</html>

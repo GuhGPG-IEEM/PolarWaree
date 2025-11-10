@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho de Compras - Tech Store</title>
+    <meta name="description" content="Revise seus produtos no carrinho de compras da Tech Store e finalize sua compra com segurança.">
+    <meta name="keywords" content="carrinho, compras, tech store, tecnologia, checkout">
+    <meta name="author" content="Tech Store">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Carrinho de Compras - Tech Store">
+    <meta property="og:description" content="Finalize sua compra na Tech Store">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://techstore.com/carrinho">
+    <meta property="og:image" content="https://techstore.com/assets/images/og-cart.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Carrinho de Compras - Tech Store">
+    <meta name="twitter:description" content="Finalize sua compra na Tech Store">
+    <meta name="twitter:image" content="https://techstore.com/assets/images/twitter-cart.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="js/components.js" as="script">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Core Scripts -->
+    <script src="js/components.js" defer></script>
+    <script src="js/auth.js" defer></script>
+    <script src="js/cart.js" defer></script>
+</head>
+<body class="theme-light">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Carregando...</p>
+    </div>
+
+    <!-- Header -->
+    <div id="header-container"></div>
+
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" aria-label="Navegação">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">
+                            <i class="icon-home"></i>
+                            Início
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <i class="icon-shopping-cart"></i>
+                        Carrinho de Compras
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="icon-shopping-cart"></i>
+                    Carrinho de Compras
+                </h1>
+                <p class="page-subtitle">Revise seus produtos antes de finalizar a compra</p>
+            </div>
+
+            <!-- Cart Content -->
+            <div class="cart-layout">
+                <!-- Cart Items -->
+                <div class="cart-items-section">
+                    <!-- Empty Cart State -->
+                    <div id="empty-cart" class="empty-cart" style="display: none;">
+                        <div class="empty-cart-icon">
+                            <i class="icon-shopping-cart"></i>
+                        </div>
+                        <h2>Seu carrinho está vazio</h2>
+                        <p>Que tal dar uma olhada em nossos produtos incríveis?</p>
+                        <a href="index.html" class="btn btn-primary">
+                            <i class="icon-arrow-left"></i>
+                            Continuar Comprando
+                        </a>
+                    </div>
+
+                    <!-- Cart Items List -->
+                    <div id="cart-items" class="cart-items">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+
+                    <!-- Continue Shopping -->
+                    <div class="continue-shopping">
+                        <a href="index.html" class="btn btn-outline">
+                            <i class="icon-arrow-left"></i>
+                            Continuar Comprando
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-summary-section">
+                    <div class="cart-summary">
+                        <h3 class="summary-title">Resumo do Pedido</h3>
+                        
+                        <div class="summary-details">
+                            <div class="summary-row">
+                                <span>Subtotal (<span id="items-count">0</span> itens)</span>
+                                <span id="subtotal">R$ 0,00</span>
+                            </div>
+                            
+                            <div class="summary-row">
+                                <span>Frete</span>
+                                <span id="shipping-cost">Calcular</span>
+                            </div>
+                            
+                            <div class="summary-row discount-row" id="discount-row" style="display: none;">
+                                <span>Desconto</span>
+                                <span id="discount-amount">-R$ 0,00</span>
+                            </div>
+                            
+                            <hr class="summary-divider">
+                            
+                            <div class="summary-row total-row">
+                                <span>Total</span>
+                                <span id="total-amount">R$ 0,00</span>
+                            </div>
+                        </div>
+
+                        <!-- Coupon Section -->
+                        <div class="coupon-section">
+                            <h4>Cupom de Desconto</h4>
+                            <div class="coupon-input-group">
+                                <input 
+                                    type="text" 
+                                    id="coupon-code" 
+                                    class="form-input" 
+                                    placeholder="Digite seu cupom"
+                                    maxlength="20"
+                                >
+                                <button type="button" id="apply-coupon" class="btn btn-outline">
+                                    Aplicar
+                                </button>
+                            </div>
+                            <div id="coupon-message" class="coupon-message"></div>
+                        </div>
+
+                        <!-- Shipping Calculator -->
+                        <div class="shipping-section">
+                            <h4>Calcular Frete</h4>
+                            <div class="shipping-input-group">
+                                <input 
+                                    type="text" 
+                                    id="zip-code" 
+                                    class="form-input" 
+                                    placeholder="00000-000"
+                                    maxlength="9"
+                                >
+                                <button type="button" id="calculate-shipping" class="btn btn-outline">
+                                    Calcular
+                                </button>
+                            </div>
+                            <div id="shipping-options" class="shipping-options"></div>
+                        </div>
+
+                        <!-- Checkout Button -->
+                        <button type="button" id="checkout-btn" class="btn btn-primary btn-full checkout-btn">
+                            <i class="icon-credit-card"></i>
+                            Finalizar Compra
+                        </button>
+
+                        <!-- Security Info -->
+                        <div class="security-info">
+                            <div class="security-item">
+                                <i class="icon-shield"></i>
+                                <span>Compra 100% Segura</span>
+                            </div>
+                            <div class="security-item">
+                                <i class="icon-truck"></i>
+                                <span>Frete Grátis acima de R$ 199</span>
+                            </div>
+                            <div class="security-item">
+                                <i class="icon-refresh"></i>
+                                <span>7 dias para trocar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended Products -->
+            <section class="recommended-section">
+                <h2 class="section-title">Você também pode gostar</h2>
+                <div class="product-grid" id="recommended-products">
+                    <!-- Recommended products will be loaded here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Inicialização da página do carrinho
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Carregar componentes
+            await Promise.all([
+                loadComponent('header-container', 'components/header.html'),
+                loadComponent('sidebar-container', 'components/sidebar.html'),
+                loadComponent('footer-container', 'components/footer.html')
+            ]);
+            
+            // Inicializar funcionalidades do carrinho
+            if (typeof CartManager !== 'undefined') {
+                const cartManager = new CartManager();
+                cartManager.initCartPage();
+            }
+
+            // Remover loading screen
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 300);
+                }, 500);
+            }
+        });
+
+        // Formatação do CEP
+        document.getElementById('zip-code')?.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 5) {
+                value = value.replace(/^(\d{5})(\d)/, '$1-$2');
+            }
+            e.target.value = value;
+        });
+
+        // Calcular frete
+        document.getElementById('calculate-shipping')?.addEventListener('click', async () => {
+            const zipCode = document.getElementById('zip-code').value;
+            const optionsContainer = document.getElementById('shipping-options');
+            
+            if (!zipCode || zipCode.length < 9) {
+                showToast('Por favor, digite um CEP válido', 'error');
+                return;
+            }
+
+            // Simular cálculo de frete
+            optionsContainer.innerHTML = `
+                <div class="shipping-option">
+                    <input type="radio" id="shipping-standard" name="shipping" value="standard" checked>
+                    <label for="shipping-standard">
+                        <div class="shipping-info">
+                            <span class="shipping-name">Entrega Padrão</span>
+                            <span class="shipping-time">5-7 dias úteis</span>
+                        </div>
+                        <span class="shipping-price">R$ 15,90</span>
+                    </label>
+                </div>
+                <div class="shipping-option">
+                    <input type="radio" id="shipping-express" name="shipping" value="express">
+                    <label for="shipping-express">
+                        <div class="shipping-info">
+                            <span class="shipping-name">Entrega Expressa</span>
+                            <span class="shipping-time">2-3 dias úteis</span>
+                        </div>
+                        <span class="shipping-price">R$ 29,90</span>
+                    </label>
+                </div>
+            `;
+
+            // Atualizar custo do frete
+            document.getElementById('shipping-cost').textContent = 'R$ 15,90';
+            updateCartTotal();
+        });
+
+        // Aplicar cupom
+        document.getElementById('apply-coupon')?.addEventListener('click', () => {
+            const couponCode = document.getElementById('coupon-code').value.trim().toUpperCase();
+            const messageEl = document.getElementById('coupon-message');
+            
+            if (!couponCode) {
+                messageEl.textContent = 'Digite um código de cupom';
+                messageEl.className = 'coupon-message error';
+                return;
+            }
+
+            // Simular validação de cupom
+            const validCoupons = {
+                'DESCONTO10': { discount: 0.1, message: 'Cupom aplicado! 10% de desconto' },
+                'FRETEGRATIS': { shipping: true, message: 'Cupom aplicado! Frete grátis' },
+                'BEMVINDO': { discount: 0.05, message: 'Cupom aplicado! 5% de desconto' }
+            };
+
+            if (validCoupons[couponCode]) {
+                const coupon = validCoupons[couponCode];
+                messageEl.textContent = coupon.message;
+                messageEl.className = 'coupon-message success';
+                
+                if (coupon.discount) {
+                    document.getElementById('discount-row').style.display = 'flex';
+                    // Aplicar desconto
+                }
+                
+                if (coupon.shipping) {
+                    document.getElementById('shipping-cost').textContent = 'Grátis';
+                }
+                
+                updateCartTotal();
+            } else {
+                messageEl.textContent = 'Cupom inválido ou expirado';
+                messageEl.className = 'coupon-message error';
+            }
+        });
+
+        // Finalizar compra
+        document.getElementById('checkout-btn')?.addEventListener('click', () => {
+            // Verificar se há itens no carrinho
+            const cartItems = document.querySelectorAll('.cart-item');
+            if (cartItems.length === 0) {
+                showToast('Seu carrinho está vazio', 'error');
+                return;
+            }
+
+            // Redirecionar para checkout
+            window.location.href = 'checkout.html';
+        });
+
+        // Função para atualizar total do carrinho
+        function updateCartTotal() {
+            // Esta função será implementada pelo CartManager
+            if (typeof window.cartManager !== 'undefined') {
+                window.cartManager.updateTotal();
+            }
+        }
+    </script>
+</body>
+</html>

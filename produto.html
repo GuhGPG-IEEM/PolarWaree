@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produto - Tech Store</title>
+    <meta name="description" content="Veja os detalhes completos do produto na Tech Store.">
+    <meta name="keywords" content="produto, detalhes, especificações, tech store">
+    <meta name="author" content="Tech Store">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Produto - Tech Store">
+    <meta property="og:description" content="Veja os detalhes completos do produto na Tech Store.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://techstore.com/produto">
+    <meta property="og:image" content="https://techstore.com/assets/images/og-produto.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Produto - Tech Store">
+    <meta name="twitter:description" content="Veja os detalhes completos do produto na Tech Store.">
+    <meta name="twitter:image" content="https://techstore.com/assets/images/twitter-produto.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="js/components.js" as="script">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Core Scripts -->
+    <script src="js/components.js" defer></script>
+    <script src="js/auth.js" defer></script>
+    <script src="js/product-detail.js" defer></script>
+</head>
+<body class="theme-light">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Carregando...</p>
+    </div>
+
+    <!-- Header -->
+    <div id="header-container"></div>
+
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" aria-label="Navegação">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">
+                            <i class="icon-home"></i>
+                            Início
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="index.html">
+                            <i class="icon-grid"></i>
+                            Produtos
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <span id="product-name">Produto</span>
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- Product Content -->
+            <div class="product-layout">
+                <div class="product-images">
+                    <div class="main-image">
+                        <img id="main-product-image" src="" alt="Produto">
+                    </div>
+                    <div class="thumbnail-images">
+                        <!-- Thumbnails serão carregadas aqui -->
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <h1 id="product-title" class="product-title">Carregando...</h1>
+                    <div class="product-rating">
+                        <div class="stars" id="product-stars"></div>
+                        <span id="product-reviews">(0 avaliações)</span>
+                    </div>
+                    
+                    <div class="product-price">
+                        <span id="product-current-price" class="current-price">R$ 0,00</span>
+                        <span id="product-old-price" class="old-price">R$ 0,00</span>
+                        <span id="product-discount" class="discount-badge">0% OFF</span>
+                    </div>
+
+                    <div class="product-description">
+                        <p id="product-description-text">Carregando descrição...</p>
+                    </div>
+
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button type="button" class="qty-btn" onclick="changeQuantity(-1)">-</button>
+                            <input type="number" id="quantity" value="1" min="1" max="10">
+                            <button type="button" class="qty-btn" onclick="changeQuantity(1)">+</button>
+                        </div>
+                        
+                        <button id="add-to-cart" class="btn btn-primary btn-full">
+                            <i class="icon-shopping-cart"></i>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+
+                    <div class="product-features">
+                        <div class="feature-item">
+                            <i class="icon-truck"></i>
+                            <span>Frete Grátis acima de R$ 199</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="icon-shield"></i>
+                            <span>Garantia de 12 meses</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="icon-refresh"></i>
+                            <span>7 dias para trocar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Details -->
+            <section class="product-details">
+                <div class="details-tabs">
+                    <button class="tab-btn active" data-tab="specs">Especificações</button>
+                    <button class="tab-btn" data-tab="reviews">Avaliações</button>
+                </div>
+                
+                <div class="tab-content">
+                    <div id="specs" class="tab-panel active">
+                        <div id="product-specs">
+                            <!-- Especificações serão carregadas aqui -->
+                        </div>
+                    </div>
+                    
+                    <div id="reviews" class="tab-panel">
+                        <div id="product-reviews-list">
+                            <!-- Avaliações serão carregadas aqui -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Inicialização da página
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Carregar componentes
+            await Promise.all([
+                loadComponent('header-container', 'components/header.html'),
+                loadComponent('sidebar-container', 'components/sidebar.html'),
+                loadComponent('footer-container', 'components/footer.html')
+            ]);
+
+            
+            // Inicializar funcionalidades do produto
+            if (typeof ProductDetailManager !== 'undefined') {
+                const productManager = new ProductDetailManager();
+                productManager.initProductPage();
+            }
+        
+
+            // Remover loading screen
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 300);
+                }, 500);
+            }
+        });
+
+        
+    </script>
+</body>
+</html>

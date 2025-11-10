@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Tech Store</title>
+    <meta name="description" content="Gerencie seus dados pessoais, pedidos e preferências na Tech Store.">
+    <meta name="keywords" content="perfil, conta, dados pessoais, pedidos, tech store">
+    <meta name="author" content="Tech Store">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Meu Perfil - Tech Store">
+    <meta property="og:description" content="Gerencie seus dados pessoais, pedidos e preferências na Tech Store.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://techstore.com/perfil">
+    <meta property="og:image" content="https://techstore.com/assets/images/og-perfil.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Meu Perfil - Tech Store">
+    <meta name="twitter:description" content="Gerencie seus dados pessoais, pedidos e preferências na Tech Store.">
+    <meta name="twitter:image" content="https://techstore.com/assets/images/twitter-perfil.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/main.css" as="style">
+    <link rel="preload" href="js/components.js" as="script">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Core Scripts -->
+    <script src="js/components.js" defer></script>
+    <script src="js/auth.js" defer></script>
+    <script src="js/profile.js" defer></script>
+</head>
+<body class="theme-light">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Carregando...</p>
+    </div>
+
+    <!-- Header -->
+    <div id="header-container"></div>
+
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" aria-label="Navegação">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">
+                            <i class="icon-home"></i>
+                            Início
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <i class="icon-user"></i>
+                        Meu Perfil
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="icon-user"></i>
+                    Meu Perfil
+                </h1>
+                <p class="page-subtitle">Gerencie seus dados e preferências</p>
+            </div>
+
+            <!-- Profile Content -->
+            <div class="profile-layout">
+                <div class="profile-sidebar">
+                    <nav class="profile-nav">
+                        <a href="#dados" class="profile-nav-item active">
+                            <i class="icon-user"></i>
+                            Dados Pessoais
+                        </a>
+                        <a href="#pedidos" class="profile-nav-item">
+                            <i class="icon-package"></i>
+                            Meus Pedidos
+                        </a>
+                        <a href="#enderecos" class="profile-nav-item">
+                            <i class="icon-map-pin"></i>
+                            Endereços
+                        </a>
+                        <a href="#seguranca" class="profile-nav-item">
+                            <i class="icon-shield"></i>
+                            Segurança
+                        </a>
+                    </nav>
+                </div>
+
+                <div class="profile-content">
+                    <!-- Dados Pessoais -->
+                    <section id="dados" class="profile-section active">
+                        <h2>Dados Pessoais</h2>
+                        <form class="profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profile-name" class="form-label">Nome Completo</label>
+                                    <input type="text" id="profile-name" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-email" class="form-label">E-mail</label>
+                                    <input type="email" id="profile-email" class="form-input">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                        </form>
+                    </section>
+
+                    <!-- Meus Pedidos -->
+                    <section id="pedidos" class="profile-section">
+                        <h2>Meus Pedidos</h2>
+                        <div id="orders-list" class="orders-list">
+                            <!-- Pedidos serão carregados aqui -->
+                        </div>
+                    </section>
+
+                    <!-- Endereços -->
+                    <section id="enderecos" class="profile-section">
+                        <h2>Meus Endereços</h2>
+                        <div id="addresses-list" class="addresses-list">
+                            <!-- Endereços serão carregados aqui -->
+                        </div>
+                    </section>
+
+                    <!-- Segurança -->
+                    <section id="seguranca" class="profile-section">
+                        <h2>Segurança</h2>
+                        <form class="security-form">
+                            <div class="form-group">
+                                <label for="current-password" class="form-label">Senha Atual</label>
+                                <input type="password" id="current-password" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password" class="form-label">Nova Senha</label>
+                                <input type="password" id="new-password" class="form-input">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Alterar Senha</button>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Inicialização da página
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Carregar componentes
+            await Promise.all([
+                loadComponent('header-container', 'components/header.html'),
+                loadComponent('sidebar-container', 'components/sidebar.html'),
+                loadComponent('footer-container', 'components/footer.html')
+            ]);
+
+            
+            // Inicializar funcionalidades do perfil
+            if (typeof ProfileManager !== 'undefined') {
+                const profileManager = new ProfileManager();
+                profileManager.initProfilePage();
+            }
+        
+
+            // Remover loading screen
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 300);
+                }, 500);
+            }
+        });
+
+        
+    </script>
+</body>
+</html>

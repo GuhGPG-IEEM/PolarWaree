@@ -1,0 +1,239 @@
+/* --- TEMAS E VARIÁVEIS GLOBAIS --- */
+:root {
+    --primary-color: #00BFFF;
+    --text-on-primary: #121212;
+
+    /* TEMA ESCURO (PADRÃO) */
+    --dark-bg: #121212;
+    --dark-surface: #1e1e1e;
+    --dark-text-primary: #FFFFFF;
+    --dark-text-secondary: #b3b3b3;
+    --dark-border: #2a2a2a;
+
+    /* TEMA CLARO */
+    --light-bg: #f0f8ff; 
+    --light-surface: #ffffff;
+    --light-text-primary: #2c3e50;
+    --light-text-secondary: #5d6d7e;
+    --light-border: #dde2e7;
+}
+
+body {
+    --bg-color: var(--dark-bg);
+    --surface-color: var(--dark-surface);
+    --text-primary: var(--dark-text-primary);
+    --text-secondary: var(--dark-text-secondary);
+    --border-color: var(--dark-border);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.light-theme {
+    --bg-color: var(--light-bg);
+    --surface-color: var(--light-surface);
+    --text-primary: var(--light-text-primary);
+    --text-secondary: var(--light-text-secondary);
+    --border-color: var(--light-border);
+}
+
+/* --- RESET BÁSICO E CONFIGURAÇÕES GLOBAIS --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+a { color: var(--primary-color); text-decoration: none; }
+ul, ol { list-style: none; }
+img { max-width: 100%; display: block; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+
+/* --- LAYOUT PRINCIPAL (HEADER, SIDEBAR, MAIN) --- */
+/* O seu HTML não usa mais a sidebar fixa, então vamos adaptar */
+.main-content {
+    padding-top: 80px; /* Espaço para o header fixo */
+    min-height: 100vh;
+}
+
+/* --- COMPONENTES GLOBAIS --- */
+
+/* Breadcrumb (Navegação Estrutural) */
+.breadcrumb {
+    margin-bottom: 2rem;
+}
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+.breadcrumb-item a {
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s;
+}
+.breadcrumb-item a:hover {
+    color: var(--primary-color);
+}
+.breadcrumb-item.active {
+    color: var(--text-primary);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.breadcrumb-item:not(:last-child)::after {
+    content: '/';
+    margin-left: 0.5rem;
+    color: var(--text-secondary);
+}
+
+/* Cabeçalho da Página */
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+.page-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Botões */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--text-on-primary);
+}
+.btn-primary:hover {
+    filter: brightness(1.1);
+}
+.btn-outline {
+    background-color: transparent;
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+.btn-outline:hover {
+    background-color: var(--surface-color);
+    border-color: var(--primary-color);
+}
+.btn-full {
+    width: 100%;
+}
+
+/* --- ESTILOS DA PÁGINA DE ATENDIMENTO --- */
+
+/* Grid de Opções de Suporte */
+.support-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+}
+.support-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.support-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.support-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+.support-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+.support-card p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+/* Seção de Perguntas Frequentes (FAQ) */
+.faq-section {
+    max-width: 800px;
+    margin: 0 auto 4rem auto;
+}
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+.faq-item {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    text-align: left;
+}
+.faq-question i {
+    transition: transform 0.3s ease;
+}
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+    padding: 0 1.5rem;
+    color: var(--text-secondary);
+}
+.faq-answer p, .faq-answer ul {
+    padding-bottom: 1.5rem;
+}
+.faq-item.active .faq-question i {
+    transform: rotate(180deg);
+}
+
+/* Formulário de Contato */
+/* (Você precisará de mais estilos para o form, mas esta é a base) */
+.contact-section {
+    /* Estilos se necessário */
+}
+
